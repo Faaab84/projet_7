@@ -68,6 +68,6 @@ def knapsack_dp(max_budget, datas):
 
 
 if __name__ == "__main__":
-    CSV_FILE = "dataset1.csv"
+    CSV_FILE = "data/dataset1.csv"
     MAX_BUDGET = 500.0
     start_optimized(CSV_FILE, MAX_BUDGET)

@@ -54,7 +54,7 @@ def display_results(best):
 
 
 def main():
-    CSV_FILE = "actions.csv"
+    CSV_FILE = "data/actions.csv"
     MAX_BUDGET = 500.0
 
     actions = read_file(CSV_FILE)
