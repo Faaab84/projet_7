@@ -1,4 +1,6 @@
 import csv
+import sys
+sys.setrecursionlimit(2000)
 
 
 def read_file(filename):
@@ -42,12 +44,12 @@ def find_best_combination(max_budget, actions, index=0, current_combination=[],
 def display_results(best):
     """affiche les resultats."""
 
-    print("Best action combination:")
+    print("les meilleurs combinaisons d'actions:")
     for action in best["actions"]:
         name, cost, profit = action
-        print(f"{name} - Coût: {cost:.2f} €, Profit: {cost * profit:.2f} €")
+        print(f"{name} - Coût: {cost: .2f} €, Profit: {cost * profit: .2f} €")
     print(f"\nTotal des coût: {sum(cost for _, cost, _ in best['actions']): .2f} €")
-    print(f"Total des profits apres 2 ans: {best['total_profit']:.2f} €")
+    print(f"Total des profits apres 2 ans: {best['total_profit']: .2f} €")
 
 
 
