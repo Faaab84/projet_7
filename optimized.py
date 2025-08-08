@@ -6,7 +6,7 @@ def read_file(csv_file):
     actions = []
     with open(csv_file, mode="r", newline="", encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
-        next(reader)  # Ignorer l'en-tête
+        next(reader)
         for row in reader:
             name = row[0]
             cost = float(row[1])
@@ -16,27 +16,22 @@ def read_file(csv_file):
     return actions
 
 
-def start_optimized(csv, max_budget):
-    """Point d'entrée principal pour le programme."""
-    datas = read_file(csv)
-    result = knapsack_dp(max_budget, datas)
-
-    print("Meilleure combinaison d'actions:")
-    for action in result["actions"]:
-        action_name, cost, benefit = action
-        print(f"{action_name} - Coût: {cost:.2f} €, Bénéfice: {cost * benefit:.2f} €")
-
-    print(f"\nCoût total: {sum(cost for _, cost, _ in result['actions']):.2f} €")
-    print(f"Bénéfice total après 2 ans: {result['total_benefit']:.2f} €")
+def display_results(best):
+    """affiche les resultats."""
+    print("les meilleurs combinaisons d'actions:")
+    for action in best["actions"]:
+        name, cost, profit = action
+        print(f"{name} - Coût: {cost:.2f} €, Profit: {cost * profit:.2f} €")
+    print(f"\nTotal des coût: {sum(cost for _, cost, _ in best['actions']):.2f} €")
+    print(f"Total des profits apres 2 ans: {best['total_benefit']:.2f} €")
 
 
 def knapsack_dp(max_budget, datas):
     """Utilise la programmation dynamique pour trouver la meilleure combinaison d'actions."""
     n = len(datas)
-    max_budget = int(max_budget * 100)  # Convertir en centimes
+    max_budget = int(max_budget * 100)
     costs = [int(cost * 100) for _, cost, _ in datas]
     benefits = [int(cost * benefit * 100) for _, cost, benefit in datas]
-
     dp = [[0] * (max_budget + 1) for _ in range(n + 1)]
     keep = [[False] * (max_budget + 1) for _ in range(n + 1)]
 
@@ -60,7 +55,6 @@ def knapsack_dp(max_budget, datas):
 
     total_benefit = dp[n][max_budget] / 100.0
     selected_actions.reverse()
-
     return {
         "total_benefit": total_benefit,
         "actions": selected_actions
@@ -68,6 +62,8 @@ def knapsack_dp(max_budget, datas):
 
 
 if __name__ == "__main__":
-    CSV_FILE = "data/dataset1.csv"
+    CSV_FILE = "data/dataset2.csv"
     MAX_BUDGET = 500.0
-    start_optimized(CSV_FILE, MAX_BUDGET)
+    actions = read_file(CSV_FILE)
+    result = knapsack_dp(MAX_BUDGET, actions)
+    display_results(result)
